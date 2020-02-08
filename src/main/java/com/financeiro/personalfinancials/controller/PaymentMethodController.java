@@ -1,5 +1,7 @@
 package com.financeiro.personalfinancials.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,8 +50,17 @@ public class PaymentMethodController {
 
 	@GetMapping("find-payment-method-by-id")
 	private ResponseEntity<?> findPaymentMethodById(final Integer id) {
+		final Optional<PaymentMethod> paymentMethod = paymentMethodRepository.findById(id);
+		if (paymentMethod.isPresent()) {
+			if (paymentMethod.get().getType() == 2) {
+				return new ResponseEntity<>(creditCardRepository.findById(paymentMethod.get().getId()).get(),
+						HttpStatus.OK);
+			}
 
-		return new ResponseEntity<>("", HttpStatus.OK);
+			return new ResponseEntity<>(paymentMethod.get(), HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(new GenericJson("Método de pagamento não encontrado"), HttpStatus.OK);
 	}
 
 }
