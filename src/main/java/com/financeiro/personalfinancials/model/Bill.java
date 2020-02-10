@@ -1,5 +1,7 @@
 package com.financeiro.personalfinancials.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "Bill")
@@ -22,23 +27,29 @@ public class Bill {
 	@ManyToOne
 	private Person personAgainst;
 
+	@NotNull(message = "O campo tipo é obrigatório.")
 	@Column(name = "type")
 	private Integer type;
 
+	@NotNull(message = "O campo quantia é obrigatório.")
 	@Column(name = "amount")
 	private Integer amount;
 
 	@Column(name = "description")
 	private String description;
 
+	@NotNull(message = "O campo categoria é obrigatório.")
 	@Column(name = "category")
 	private Integer category;
 
+	@NotNull(message = "O campo data de criação é obrigatório.")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "createdDate")
-	private java.sql.Date createdDate;
+	private Date createdDate;
 
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "payDate")
-	private java.sql.Date payDate;
+	private Date payDate;
 
 	@Column(name = "currentParcel")
 	private Integer currentParcel;
@@ -46,8 +57,9 @@ public class Bill {
 	@Column(name = "totalParcels")
 	private Integer totalParcels;
 
-	@Column(name = "paymentType")
-	private Integer paymentType;
+	@NotNull(message = "O campo método de pagamento é obrigatório.")
+	@Column(name = "paymentMethod")
+	private PaymentMethod paymentMethod;
 
 	public Bill() {
 
@@ -101,19 +113,19 @@ public class Bill {
 		this.category = category;
 	}
 
-	public java.sql.Date getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(final java.sql.Date createdDate) {
+	public void setCreatedDate(final Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public java.sql.Date getPayDate() {
+	public Date getPayDate() {
 		return payDate;
 	}
 
-	public void setPayDate(final java.sql.Date payDate) {
+	public void setPayDate(final Date payDate) {
 		this.payDate = payDate;
 	}
 
@@ -133,12 +145,12 @@ public class Bill {
 		this.totalParcels = totalParcels;
 	}
 
-	public Integer getPaymentType() {
-		return paymentType;
+	public PaymentMethod getPaymentMethod() {
+		return paymentMethod;
 	}
 
-	public void setPaymentType(final Integer paymentType) {
-		this.paymentType = paymentType;
+	public void setPaymentMethod(final PaymentMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	@Override
@@ -146,7 +158,7 @@ public class Bill {
 		return "Bill [id=" + id + ", personAgainst=" + personAgainst + ", type=" + type + ", amount=" + amount
 				+ ", description=" + description + ", category=" + category + ", createdDate=" + createdDate
 				+ ", payDate=" + payDate + ", currentParcel=" + currentParcel + ", totalParcels=" + totalParcels
-				+ ", paymentType=" + paymentType + "]";
+				+ ", paymentType=" + paymentMethod + "]";
 	}
 
 }
