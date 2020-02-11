@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -23,8 +24,9 @@ public class PaymentMethod implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_payment_method")
 	private Integer id;
 
+	@NotBlank
 	@Column(name = "name")
-	@Size(min = 5, max = 30)
+	@Size(min = 5, max = 30, message = "O tamanho deve ser entre 5 e 30 caracteres.")
 	private String name;
 
 	public Integer getId() {

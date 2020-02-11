@@ -24,6 +24,7 @@ public class Bill {
 	@Column(name = "id")
 	private Integer id;
 
+	@NotNull(message = "O campo pessoa é obrigatório.")
 	@ManyToOne
 	private Person personAgainst;
 

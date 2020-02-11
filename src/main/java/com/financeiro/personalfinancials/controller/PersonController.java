@@ -3,6 +3,8 @@ package com.financeiro.personalfinancials.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +27,8 @@ public class PersonController {
 	PersonRepository personRepository;
 
 	@PostMapping("create-person")
-	private ResponseEntity<?> createPerson(final Person person) {
-		if (person.getName() != null) {
-			personRepository.save(person);
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-
-		return new ResponseEntity<>(new GenericJson("Campos obrigatórios faltantes"), HttpStatus.OK);
+	private ResponseEntity<?> createPerson(@Valid final Person person) {
+		return new ResponseEntity<>(personRepository.save(person), HttpStatus.OK);
 	}
 
 	@GetMapping("find-person-by-id")
@@ -54,6 +51,11 @@ public class PersonController {
 		}
 
 		return new ResponseEntity<>(new GenericJson("Nome não encontrado"), HttpStatus.OK);
+	}
+
+	@GetMapping("find-all-people")
+	private ResponseEntity<?> findAllPeople() {
+		return new ResponseEntity<>(personRepository.findAll(), HttpStatus.OK);
 	}
 
 	@PutMapping("update-person-by-id")

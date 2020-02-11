@@ -3,6 +3,8 @@ package com.financeiro.personalfinancials.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +27,8 @@ public class CategoryController {
 	CategoryRepository categoryRepository;
 
 	@PostMapping("create-category")
-	private ResponseEntity<?> createCategory(final Category category) {
-
-		if (category.getName() != null) {
-			categoryRepository.save(category);
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-
-		return new ResponseEntity<>(new GenericJson("Campos obrigatórios faltantes"), HttpStatus.OK);
+	private ResponseEntity<?> createCategory(@Valid final Category category) {
+		return new ResponseEntity<>(categoryRepository.save(category), HttpStatus.OK);
 	}
 
 	@GetMapping("find-category-by-id")
@@ -55,6 +51,11 @@ public class CategoryController {
 		}
 
 		return new ResponseEntity<>(new GenericJson("Nome não encontrado"), HttpStatus.OK);
+	}
+
+	@GetMapping("find-all-categories")
+	private ResponseEntity<?> findAllCategories() {
+		return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
 	}
 
 	@PutMapping("update-category-by-id")

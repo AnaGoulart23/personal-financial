@@ -31,8 +31,7 @@ public class BillController {
 
 	@PostMapping("create-bill")
 	private ResponseEntity<?> createBill(@Valid final Bill bill) {
-		billRepository.save(bill);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(billRepository.save(bill), HttpStatus.OK);
 	}
 
 	@GetMapping("find-bill-by-id")

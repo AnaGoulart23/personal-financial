@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -20,8 +20,8 @@ public class Person {
 	@Column(name = "id")
 	private Integer id;
 
-	@NotNull
-	@Size(max = 100)
+	@NotBlank(message = "O campo é obrigatório.")
+	@Size(min = 3, max = 100, message = "O tamanho precisa estar entre 3 e 100 caracteres.")
 	@Column(name = "name")
 	private String name;
 

@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -21,8 +21,8 @@ public class Category {
 	private Integer id;
 
 	@Column(name = "name")
-	@NotNull
-	@Size(max = 30)
+	@NotBlank(message = "O nome da categoria é obrigatório.")
+	@Size(max = 30, message = "O tamanho precisa ser de no máximo 30 caracteres.")
 	private String name;
 
 	public Category() {

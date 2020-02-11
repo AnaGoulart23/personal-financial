@@ -2,6 +2,8 @@ package com.financeiro.personalfinancials.controller;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +23,14 @@ public class PaymentMethodController {
 	@Autowired
 	PaymentMethodRepository paymentMethodRepository;
 
-	@PostMapping("create-generic-payment-method")
-	private ResponseEntity<?> createGenericPaymentMethod(final PaymentMethod genericPaymentMethod) {
+	@PostMapping("create-payment-method")
+	private ResponseEntity<?> createPaymentMethod(@Valid final PaymentMethod genericPaymentMethod) {
+		return new ResponseEntity<>(paymentMethodRepository.save(genericPaymentMethod), HttpStatus.OK);
+	}
 
-		if (genericPaymentMethod.getName() != null) {
-			paymentMethodRepository.save(genericPaymentMethod);
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-
-		return new ResponseEntity<>(new GenericJson("Campos obrigatórios faltantes"), HttpStatus.OK);
+	@GetMapping("find-all-payment-methods")
+	private ResponseEntity<?> findAllPaymentMethods() {
+		return new ResponseEntity<>(paymentMethodRepository.findAll(), HttpStatus.OK);
 	}
 
 	@GetMapping("find-payment-method-by-id")
